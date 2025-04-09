@@ -1,4 +1,52 @@
 #!/usr/bin/make -f
+# -*- makefile -*-
+
+SCHEMAS = pinying zrm zrlong flypy sogo mspy abc ziguang
+SCHEMAS_ZH = 全拼 自然码 自然龙 小鹤双拼 搜狗双拼 微软双拼 智能ABC 紫光双拼,
+DICT_PATHS = pinyin zrm zrlong flypy sogou mspy abc ziguang
 
 %:
 	dh $@
+
+override_dh_auto_install:
+	cp wanxiang.schema.yaml wanxiang.schema.yaml.orig
+	$(foreach i,1 2 3 4 5 6 7 8, \
+		$(eval schema=$(word $i,$(SCHEMAS))) \
+		$(eval schema_zh=$(word $i,$(SCHEMAS_ZH))) \
+		$(eval dict_path=$(word $i,$(DICT_PATHS))) \
+		mkdir -p debian/rime-wanxiang-$(schema)/usr/share/rime-data/; \
+		sed -e "1,8 {/^  __include: /s#.*#  __include: $(schema_zh)#}" \
+			-e "/set_cn_en:/,/^$$/ s#user_dict: en_dicts/.*#user_dict: en_dicts/$(dict_path)#" \
+			$(CURDIR)/wanxiang.schema.yaml.orig > \
+			debian/rime-wanxiang-$(schema)/usr/share/rime-data/wanxiang.schema.yaml; \
+	)
+	mkdir -p debian/rime-wanxiang-base/usr/share/rime-data/lua/
+	mkdir -p debian/rime-wanxiang-base/usr/share/rime-data/opencc/
+	mkdir -p debian/rime-wanxiang-base/usr/share/rime-data/wanxiang/
+	mkdir -p debian/rime-wanxiang-base/usr/share/rime-data/build/
+
+	7z x -mmt=on ./wanxiang-lts-zh-hans.gram.7z.001
+
+	cp -r en_dicts/ debian/rime-wanxiang-base/usr/share/rime-data/en_dicts
+	cp -r cn_dicts/ debian/rime-wanxiang-base/usr/share/rime-data/cn_dicts
+	cp -r jm_dicts/ debian/rime-wanxiang-base/usr/share/rime-data/jm_dicts
+	cp -r lua/* debian/rime-wanxiang-base/usr/share/rime-data/lua/
+	cp -r opencc/* debian/rime-wanxiang-base/usr/share/rime-data/opencc/
+	cp wanxiang*.yaml debian/rime-wanxiang-base/usr/share/rime-data/
+	cp default.yaml debian/rime-wanxiang-base/usr/share/rime-data/wanxiang/default.yaml
+	cp squirrel.yaml debian/rime-wanxiang-base/usr/share/rime-data/squirrel.yaml
+	cp wanxiang-lts-zh-predict.db debian/rime-wanxiang-base/usr/share/rime-data/wanxiang-lts-zh-predict.db
+	cp weasel.yaml debian/rime-wanxiang-base/usr/share/rime-data/weasel.yaml
+	cp 简纯+.trime.yaml debian/rime-wanxiang-base/usr/share/rime-data/简纯+.trime.yaml
+	cp wanxiang-lts-zh-hans.gram debian/rime-wanxiang-base/usr/share/rime-data/wanxiang-lts-zh-hans.gram
+	rime_deployer --compile debian/rime-wanxiang-base/usr/share/rime-data/wanxiang.schema.yaml
+	cp -r build/* debian/rime-wanxiang-base/usr/share/rime-data/build/
+
+	rm -rf debian/rime-wanxiang-base/usr/share/rime-data/wanxiang.schema.yaml
+
+
+
+
+clean:
+	rm -f wanxiang.schema.yaml.orig
+	dh_clean
