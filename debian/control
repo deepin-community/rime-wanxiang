@@ -15,7 +15,7 @@ Rules-Requires-Root: no
 
 Package: rime-wanxiang-base
 Architecture: all
-Depends: fcitx5-rime, librime1, ${misc:Depends}
+Depends: fcitx5-rime, librime1, librime-plugin-lua, librime-plugin-octagram, librime-data, librime-bin, ${misc:Depends}
 Description: wanxiang pinyin for rime
  wanxiang pinyin is a pinyin scheme for rime.
 

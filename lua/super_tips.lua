@@ -6,7 +6,6 @@
 --     - lua_processor@*super_tips               #超级提示模块：表情、简码、翻译、化学式
 --     key_binder/tips_key: "slash"     参数配置
 local _db_pool = _db_pool or {}  -- 数据库池
-local M = {}
 -- 获取或创建 LevelDb 实例，避免重复打开
 local function wrapLevelDb(dbname, mode)
     _db_pool[dbname] = _db_pool[dbname] or LevelDb(dbname)
@@ -16,6 +15,7 @@ local function wrapLevelDb(dbname, mode)
     end
     return db
 end
+local M = {}
 -- 优先读取用户目录，如果不存在则尝试系统目录
 local function find_dict_file(filename)
     local user_path = rime_api.get_user_data_dir() .. "/jm_dicts/" .. filename
@@ -29,6 +29,7 @@ local function find_dict_file(filename)
 
     return nil
 end
+
 -- 初始化词典并加载数据到 LevelDB
 function M.init(env)
     local config = env.engine.schema.config
@@ -36,13 +37,9 @@ function M.init(env)
 
     local db = wrapLevelDb('tips', true)
     local path = find_dict_file("tips_show.txt")
-
-    if not path then
-        db:close()
-        return
-    end
     local file = io.open(path, "r")
     if not file then db:close(); return end
+
     for line in file:lines() do
         if not line:match("^#") then
             local value, key = line:match("([^\t]+)\t([^\t]+)")
@@ -52,8 +49,10 @@ function M.init(env)
         end
     end
     file:close()
+    collectgarbage()
     db:close()
 end
+
 -- 处理候选词及提示逻辑
 function M.func(key, env)
     local engine = env.engine
@@ -64,13 +63,12 @@ function M.func(key, env)
     local input_text = context.input or ""
     env.settings = { super_tips = context:get_option("super_tips") } or true
     local is_super_tips = env.settings.super_tips
-
     local db = wrapLevelDb("tips", false)
     local stick_phrase = db:fetch(input_text)
-
     local selected_cand = context:get_selected_candidate()
     local selected_cand_match = selected_cand and db:fetch(selected_cand.text) or nil
-
+    collectgarbage()
+    db:close() 
     local tips = stick_phrase or selected_cand_match
     env.last_tips = env.last_tips or ""
 
@@ -82,6 +80,7 @@ function M.func(key, env)
             segment.prompt = ""
         end
     end
+
     if (context:is_composing() or context:has_menu()) and M.tips_key and is_super_tips then
         local trigger = key:repr() == M.tips_key
         local text = selected_cand and selected_cand.text or input_text
@@ -93,6 +92,7 @@ function M.func(key, env)
             return 1
         end
     end
+
     return 2
 end
 return M
