@@ -1,15 +1,76 @@
-Source: template-repository
-Section: unknown
+Source: rime-wanxiang
+Section: utils
 Priority: optional
-Maintainer: Tsic404 <liuheng@deepin.org>
-Build-Depends: debhelper (>= 11)
-Standards-Version: 4.1.3
-Homepage: https://github.com/deepin-community/template-repository
-#Vcs-Browser: https://salsa.debian.org/debian/deepin-community-template-repository
-#Vcs-Git: https://salsa.debian.org/debian/deepin-community-template-repository.git
+Maintainer: xiangzelong <xiangzelong@deepin.org>
+Build-Depends: debhelper-compat (= 13),
+               7zip,
+               librime-bin,
+               librime1,
+               fcitx5-rime,
+Standards-Version: 4.6.0
+Homepage: https://github.com/amzxyz/rime_wanxiang
+Vcs-Browser: https://github.com/deepin-community/rime-wanxiang
+Vcs-Git: https://github.com/deepin-community/rime-wanxiang.git
+Rules-Requires-Root: no
 
-Package: template-repository
-Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Package: rime-wanxiang-base
+Architecture: all
+Depends: fcitx5-rime, librime1, librime-plugin-lua, librime-plugin-octagram, librime-data, librime-bin, ${misc:Depends}
+Description: wanxiang pinyin for rime
+ wanxiang pinyin is a pinyin scheme for rime.
+
+Package: rime-wanxiang-pinyin
+Architecture: all
+Depends: rime-wanxiang-base, ${misc:Depends}
+Conflicts: rime-wanxiang-zrm, rime-wanxiang-zrlong, rime-wanxiang-flypy, rime-wanxiang-mspy, rime-wanxiang-sogo, rime-wanxiang-abc, rime-wanxiang-ziguang
+Description: wanxiang pinyin for rime
+ wanxiang pinyin is a pinyin scheme for rime.
+
+Package: rime-wanxiang-zrm
+Architecture: all
+Depends: rime-wanxiang-base, ${misc:Depends}
+Conflicts: rime-wanxiang-pinyin, rime-wanxiang-zrlong, rime-wanxiang-flypy, rime-wanxiang-mspy, rime-wanxiang-sogo, rime-wanxiang-abc, rime-wanxiang-ziguang
+Description: wanxiang ziranma double pinyin for rime
+ wanxiang ziranma double pinyin is a pinyin scheme for rime.
+
+Package: rime-wanxiang-zrlong
+Architecture: all
+Depends: rime-wanxiang-base, ${misc:Depends}
+Conflicts: rime-wanxiang-pinyin, rime-wanxiang-zrm, rime-wanxiang-flypy, rime-wanxiang-mspy, rime-wanxiang-sogo, rime-wanxiang-abc, rime-wanxiang-ziguang
+Description: wanxiang ziranlong double pinyin for rime
+ wanxiang ziranlong double pinyin is a pinyin scheme for rime.
+
+Package: rime-wanxiang-flypy
+Architecture: all
+Depends: rime-wanxiang-base, ${misc:Depends}
+Conflicts: rime-wanxiang-pinyin, rime-wanxiang-zrm, rime-wanxiang-zrlong, rime-wanxiang-mspy, rime-wanxiang-sogo, rime-wanxiang-abc, rime-wanxiang-ziguang
+Description: wanxiang flypy double pinyin for rime
+ wanxiang flypy double pinyin is a pinyin scheme for rime.
+
+Package: rime-wanxiang-mspy
+Architecture: all
+Depends: rime-wanxiang-base, ${misc:Depends}
+Conflicts: rime-wanxiang-pinyin, rime-wanxiang-zrm, rime-wanxiang-zrlong, rime-wanxiang-flypy, rime-wanxiang-sogo, rime-wanxiang-abc, rime-wanxiang-ziguang
+Description: wanxiang microsoft double pinyin for rime
+ wanxiang microsoft double pinyin is a pinyin scheme for rime.
+
+Package: rime-wanxiang-sogo
+Architecture: all
+Depends: rime-wanxiang-base, ${misc:Depends}
+Conflicts: rime-wanxiang-pinyin, rime-wanxiang-zrm, rime-wanxiang-zrlong, rime-wanxiang-flypy, rime-wanxiang-mspy, rime-wanxiang-abc, rime-wanxiang-ziguang
+Description: wanxiang sogo double pinyin for rime
+ wanxiang sogo double pinyin is a pinyin scheme for rime.
+
+Package: rime-wanxiang-abc
+Architecture: all
+Depends: rime-wanxiang-base, ${misc:Depends}
+Conflicts: rime-wanxiang-pinyin, rime-wanxiang-zrm, rime-wanxiang-zrlong, rime-wanxiang-flypy, rime-wanxiang-mspy, rime-wanxiang-sogo, rime-wanxiang-ziguang
+Description: wanxiang abc smart double pinyin for rime
+ wanxiang abc double pinyin is a pinyin scheme for rime.
+
+Package: rime-wanxiang-ziguang
+Architecture: all
+Depends: rime-wanxiang-base, ${misc:Depends}
+Conflicts: rime-wanxiang-pinyin, rime-wanxiang-zrm, rime-wanxiang-zrlong, rime-wanxiang-flypy, rime-wanxiang-mspy, rime-wanxiang-sogo, rime-wanxiang-abc
+Description: wanxiang ziguang double pinyin for rime
+ wanxiang ziguang double pinyin is a pinyin scheme for rime.

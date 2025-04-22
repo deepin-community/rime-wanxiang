@@ -1,0 +1,29 @@
+#! /bin/bash
+set -euo pipefail
+
+#DEBHELPER#
+RIME_DATA_DIR="/usr/share/rime-data"
+TEMP_DIR="$RIME_DATA_DIR/wanxiang"
+PACKAGE_NAME="rime-wanxiang-base"
+
+case "$1" in
+    remove|purge|upgrade|failed-upgrade)
+        # 创建原子操作目录
+        mkdir -p "$TEMP_DIR" || exit 1
+
+        # 移动配置文件（原子操作）
+        if [ -f "$RIME_DATA_DIR/default.yaml" ]; then
+            mv -f "$RIME_DATA_DIR/default.yaml" "$TEMP_DIR/" || exit 1
+        fi
+
+        # 安全移除 diversion 规则
+        if dpkg-divert --list | grep -q "^$PACKAGE_NAME \$RIME_DATA_DIR/default.yaml$"; then
+            dpkg-divert --remove --rename "$RIME_DATA_DIR/default.yaml" 2>/dev/null || :
+        fi
+
+        # 清理临时文件（延迟到脚本结束）
+        trap 'rm -rf "$TEMP_DIR"' EXIT
+        ;;
+esac
+
+exit 0
