@@ -1,0 +1,16 @@
+#!/bin/sh
+set -e
+
+#DEBHELPER#
+case "$1" in
+    configure)
+        # 添加 diversion 转移原始文件
+        dpkg-divert --package rime-wanxiang-base --divert /usr/share/rime-data/default.yaml.dist \
+            --rename /usr/share/rime-data/default.yaml
+
+        # 安装本包提供的配置文件
+        install -m 644 /usr/share/rime-data/wanxiang/default.yaml /usr/share/rime-data/default.yaml
+        ;;
+esac
+
+exit 0

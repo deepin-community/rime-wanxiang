@@ -1,0 +1,2 @@
+version=4
+https://github.com/amzxyz/rime_wanxiang/tags .*/v?(\d.*)@ARCHIVE_EXT@
