@@ -3,11 +3,10 @@
 set +e -u
 
 dir=$HOME/.local/share/fcitx5/rime/
-temp=$(mktemp -d)
 
 echo "继续操作将会清除 $dir 下的所有文件，如果您修改过此目录下的文件请先退出并自行备份!"
 echo -n "确认继续？[Y/n]"
-read answer
+read -r answer
 case $answer in
 	Y | y) echo
 		echo "继续执行……" ;;
@@ -17,12 +16,13 @@ case $answer in
 
 esac
 
-mkdir -p $dir
-cp -rfv $dir/*userdb* $temp/
-rm -rfv $dir
-mkdir $dir -pv
-cp -rfv $temp/* $dir/
-rm -rf $temp
+mkdir -p "$dir"
+temp=$(mktemp -d)
+cp -rfv "$dir"/*userdb* "$temp"/
+rm -rfv "$dir"
+mkdir "$dir" -pv
+cp -rfv "$temp"/* "$dir"/
+rm -rf "$temp"
 
 dbus-send --print-reply --dest=org.fcitx.Fcitx5 /controller org.fcitx.Fcitx.Controller1.SetConfig string:"fcitx://config/addon/rime/deploy" variant:string:""
 
