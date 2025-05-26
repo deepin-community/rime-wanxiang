@@ -3,7 +3,7 @@
 #https://github.com/amzxyz/RIME-LMDG
 ---
 name: chars
-version: "2025-05-06 19:34"
+version: "LTS"
 sort: by_weight
 ...
 啊	a	915
@@ -603,7 +603,7 @@ sort: by_weight
 𢠭	bā	1
 𢺞	bǎ	1
 𢻷	bā	1
-𣬷	ba	1
+𣬷	bā	1
 𣬶	bā	1
 𤜕	bà	1
 𤜱	bā	1
@@ -14909,6 +14909,7 @@ sort: by_weight
 汲	jí	503
 藉	jí	502
 鲫	jì	499
+骑	jì	498
 悸	jì	497
 幾	jǐ	496
 亟	jí	494
@@ -22542,7 +22543,7 @@ sort: by_weight
 𪕚	liú	1
 𫞉	liǔ	1
 镏	liù	1
-咯	lo	1
+咯	lo	812
 龙	lóng	745
 隆	lóng	667
 笼	lóng	614
@@ -24285,6 +24286,7 @@ sort: by_weight
 𪎭	méi	1
 𪾛	mèi	1
 𫟈	měi	1
+𦳀	mèi	1
 们	men	861
 门	mén	798
 闷	mèn	624
@@ -48572,8 +48574,8 @@ sort: by_weight
 𪎻	zhèng	1
 𪨘	zhēng	1
 𫖖	zhèng	1
-支	zhī	855
-只	zhǐ	848
+只	zhǐ	858
+支	zhī	845
 值	zhí	838
 知	zhī	820
 之	zhī	817
@@ -70367,7 +70369,6 @@ sort: by_weight
 𦲽	无	1
 𦲿	无	1
 𦲾	无	1
-𦳀	无	1
 𦳂	无	1
 𦳒	无	1
 𦳍	无	1
