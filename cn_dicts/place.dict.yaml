@@ -4,7 +4,7 @@
 #------行政区划------
 ---
 name: place
-version: "2025-05-06 19:34"
+version: "LTS"
 sort: by_weight
 ...
 阿坝	ā bà	472
@@ -294,7 +294,7 @@ sort: by_weight
 大村	dà cūn	483
 大东	dà dōng	501
 大肚	dà dù	503
-大方	dà fāng	676
+大方	dà fang	676
 大丰	dà fēng	469
 大关	dà guān	619
 大观	dà guān	524
@@ -2060,7 +2060,7 @@ sort: by_weight
 石阡	shí qiān	367
 石渠	shí qú	364
 石泉	shí quán	433
-石狮	shí shí	510
+石狮	shí shī	510
 石首	shí shǒu	387
 石台	shí tái	375
 狮潭	shī tán	363
@@ -13005,6 +13005,7 @@ sort: by_weight
 长岭沟村	cháng lǐng gōu cūn	1
 长泠江村	cháng líng jiāng cūn	1
 长凌营村	cháng líng yíng cūn	1
+长陵园村	cháng líng yuán cūn	1
 长岭子村	cháng lǐng zi cūn	134
 长龙岗村	cháng lóng gǎng cūn	1
 长龙坪村	cháng lóng píng cūn	1
@@ -15781,9 +15782,9 @@ sort: by_weight
 董家塬村	dǒng jiā yuán cūn	1
 董家庄村	dǒng jiā zhuāng cūn	173
 东贾庄村	dōng jiǎ zhuāng cūn	1
-东家庄村	dōng jiā zhuāng cūn	1
+东家庄村	dōng jia zhuāng cūn	1
 东甲庄村	dōng jiǎ zhuāng cūn	1
-东家嘴村	dōng jiā zuǐ cūn	1
+东家嘴村	dōng jia zuǐ cūn	1
 东涧北村	dōng jiàn běi cūn	1
 东建德村	dōng jiàn dé cūn	1
 东涧沟村	dōng jiàn gōu cūn	1
@@ -16713,13 +16714,13 @@ sort: by_weight
 东作里村	dōng zuò lǐ cūn	1
 都道府县	dōu dào fǔ xiàn	574
 斗范梁村	dòu fàn liáng cūn	1
-豆腐店村	dòu fǔ diàn cūn	1
-豆腐房村	dòu fǔ fáng cūn	1
-豆腐沟村	dòu fǔ gōu cūn	1
-豆腐李村	dòu fǔ lǐ cūn	1
-豆腐刘村	dòu fǔ liú cūn	1
-豆腐营村	dòu fǔ yíng cūn	1
-豆腐庄村	dòu fǔ zhuāng cūn	270
+豆腐店村	dòu fu diàn cūn	1
+豆腐房村	dòu fu fáng cūn	1
+豆腐沟村	dòu fu gōu cūn	1
+豆腐李村	dòu fu lǐ cūn	1
+豆腐刘村	dòu fu liú cūn	1
+豆腐营村	dòu fu yíng cūn	1
+豆腐庄村	dòu fu zhuāng cūn	270
 豆各庄乡	dòu gè zhuāng xiāng	222
 陡沟河村	dǒu gōu hé cūn	1
 斗沟子村	dòu gōu zi cūn	1
@@ -17857,7 +17858,7 @@ sort: by_weight
 甘泉坊村	gān quán fāng cūn	1
 甘泉井村	gān quán jǐng cūn	1
 甘泉庄村	gān quán zhuāng cūn	1
-干湿沟村	gàn shī gōu cūn	1
+干湿沟村	gān shī gōu cūn	1
 干石览镇	gàn shí lǎn zhèn	1
 甘什黎村	gān shí lí cūn	105
 甘树湾村	gān shù wān cūn	1
@@ -17889,7 +17890,7 @@ sort: by_weight
 干峪沟村	gàn yù gōu cūn	216
 甘峪沟村	gān yù gōu cūn	105
 甘峪口村	gān yù kǒu cūn	116
-干鱼头村	gàn yú tóu cūn	1
+干鱼头村	gān yú tóu cūn	1
 甘泽堡村	gān zé bǎo cūn	1
 甘寨堡村	gān zhài bǎo cūn	1
 干召庙镇	gàn zhào miào zhèn	58
@@ -33977,11 +33978,11 @@ sort: by_weight
 太家沟村	tài jiā gōu cūn	1
 邰家湾村	tái jiā wān cūn	1
 台家庄村	tái jiā zhuāng cūn	1
-太姥山镇	tài lǎo shān zhèn	266
 泰陵园村	tài líng yuán cūn	1
 台路沟乡	tái lù gōu xiāng	125
 太麻里乡	tài má lǐ xiāng	402
 台贸十村	tái mào shí cūn	35
+太姥山镇	tài mǔ shān zhèn	266
 泰南新村	tài nán xīn cūn	1
 台盘寺村	tái pán sì cūn	1
 太平坝乡	tài píng bà xiāng	77
@@ -37746,7 +37747,7 @@ sort: by_weight
 西石桥村	xī shí qiáo cūn	77
 西石桥镇	xī shí qiáo zhèn	1
 西石泉村	xī shí quán cūn	1
-西石狮村	xī shí shí cūn	1
+西石狮村	xī shí shī cūn	1
 西石塔村	xī shí tǎ cūn	1
 西石现村	xī shí xiàn cūn	1
 西石羊村	xī shí yáng cūn	1
@@ -42957,7 +42958,6 @@ sort: by_weight
 张良沟村	zhāng liáng gōu cūn	1
 张良寨村	zhāng liáng zhài cūn	1
 张良庄村	zhāng liáng zhuāng cūn	1
-长陵园村	zhǎng líng yuán cūn	1
 张刘庄村	zhāng liú zhuāng cūn	1
 张六庄乡	zhāng liù zhuāng xiāng	1
 张龙岗村	zhāng lóng gǎng cūn	1
