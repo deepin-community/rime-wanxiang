@@ -12,6 +12,14 @@ patch:
     - userxx                                  #导入根目录下名称为userxx.dict.yaml的自定义固定词典，编码要与固定词库一致（或者不写编码），形如姓名、专有名词公司名称等等
   #下面是候选数量
   menu/page_size: 6  #不要超过6，7890用于代表声调1234，6个管够你用了，如果你非要10个，不要问我😜。
+  #生日信息：/sr或者osr，在这里定义全局替换构建你的生日查询数据库
+  birthday_reminder:  #日期格式：必须是4位数字，格式为MMDD（月份和日期），例如：1月27日 → 0127 ，#备注格式：在日期后添加逗号，然后添加任意文本作为备注，例如："0501,我的好朋友"，也可以无备注
+    solar_birthdays:  # 公历生日, 姓名: "日期,备注" or 姓名: "日期"
+      小明: "0501,准备礼物"
+      大明: "0405"
+    lunar_birthdays:  # 农历生日, 姓名: "日期,备注" or 姓名: "日期"
+      小明: "0114"
+      小红: "0815,农历中秋"
   #下面用来改变你的windows小狼毫右下角软件图标
   #schema/+:
   #  icon: "icons/zhong.ico"
@@ -60,44 +68,10 @@ patch:
   recognizer/patterns/quick_symbol: "^;.*$"
   #下面这个用来设置开启调频的时候哪些内容不调频
   translator/disable_user_dict_for_patterns: "^[a-z]{1,6}"
-  translator/enable_user_dict: false  # 是否开启自动调频用户词，如果你希望使用下面ac造词功能，请保持false，因为两个跨翻译器会造成词汇不能正常记录
+  translator/enable_user_dict: true  # 是否开启自动调频用户词，如果你希望使用下面``造词功能，请保持false，因为两个跨翻译器会造成词汇不能正常记录
 
-# 以下恢复ac造词功能，如果你不使用该功能，请直接删除段落---------------------------------
-  engine/segmentors/@before 5:
-    affix_segmentor@add_user_dict
-  engine/translators/@before 13:
-    script_translator@user_dict_set
-  engine/translators/@before 14:
-    script_translator@add_user_dict
-  recognizer/patterns/add_user_dict: "^ac[A-Za-z/`']*$"      #自造词引导方式
-  # 自定义词典 
-  user_dict_set:
-    dictionary: wanxiang
-    initial_quality: 0
-    enable_completion: false
-    enable_sentence: false
-    spelling_hints: 100
-    comment_format:
-    preedit_format:     #影响到输入框的显示和“Shift+回车”上屏的字符，交给super_preedit_pro处理
-      - xform/7/1/
-      - xform/8/2/
-      - xform/9/3/
-      - xform/0/4/
-    enable_user_dict: true
-    user_dict: zc
-  # 自定义词典加词(ac引导)
-  add_user_dict:
-    tag: add_user_dict
-    dictionary: wanxiang
-    initial_quality: -1
-    user_dict: zc
-    enable_charset_filter: false # 是否开启字符集过滤
-    enable_completion: true # 提前显示尚未输入完整码的字〔仅 table_translator 有效〕
-    enable_encoder: true # 是否开启自动造词〔仅 table_translator 有效〕
-    enable_sentence: true #  是否开启自动造句
-    enable_user_dict: true
-    encode_commit_history: false # 是否对已上屛词自动成词〔仅 table_translator 有效〕  
-    comment_format:
-    prefix: "ac"
-    tips: "〔自造词〕"
-#ac造词全功能段落结束---------------------------------------------------------------
+#以下恢复``造词功能，也就是平时不记录，引导才记录，按需造词，如果你想恢复这个功能，请取消注释----
+  #recognizer/patterns/add_user_dict: "^``[A-Za-z/`']*$"      #自造词引导方式
+  #user_dict_set/enable_user_dict: true     
+  #add_user_dict/enable_user_dict: true
+#按需造词全功能段落结束---------------------------------------------------------------
