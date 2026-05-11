@@ -3,28 +3,29 @@
 
 
 # 要比共享目录的同名文件的 config_version 大才可以生效
-config_version: '2024-09-30'
+config_version: 'LTS'
 
 
 # 方案列表
 schema_list:
-  - schema: wanxiang 
-
+  - schema: wanxiang
+#  - schema: wanxiang_english
+#  - schema: wanxiang_t9
 # 菜单
 menu:
-  page_size: 6  # 候选词个数，不要超过6，7890用于声调
-  #alternative_select_labels: [ ⒈, ⒉, ⒊, ⒋, ⒌, ⒍, ⒎, ⒏, ⒐, ⒑, ⒒, ⒓, ⒔, ⒕, ⒖, ⒗, ⒘, ⒙, ⒚, ⒛ ]  # 修改候选项标签
-  # alternative_select_keys: ASDFGHJKL  # 如编码字符占用数字键，则需另设选字键
+  page_size: 6  # 候选词个数，不得超过6个，7890代表声调
+  alternative_select_labels: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]  # 修改候选项标签，Windows用这行会自动加点
+  #alternative_select_labels: [ ⒈, ⒉, ⒊, ⒋, ⒌, ⒍, ⒎, ⒏, ⒐, ⒑ ]  # 修改候选项标签，Linux用这行用了加点字符
+  #alternative_select_keys: ASDFGHJKL  # 这里战略性占用选字按键，如编码字符占用数字键，则需另设选字键
 
 
-# 方案选单相关
+# 万象状态面板相关
 switcher:
-  caption: 「方案选单」
+  caption: 「万象状态面板」
   hotkeys:
-    - Control+grave    #tab上面那个，别怪我没提醒
-  save_options:  # 开关记忆（方案中的 switches），从方案选单（而非快捷键）切换时会记住的选项，需要记忆的开关不能设定 reset
+    - Control+grave
+  save_options:  # 开关记忆（方案中的 switches），从万象状态面板（而非快捷键）切换时会记住的选项，需要记忆的开关不能设定 reset
     - ascii_punct
-    - traditionalization
     - s2t
     - s2hk
     - s2tw
@@ -32,16 +33,21 @@ switcher:
     - full_shape
     - prediction
     - super_tips
-    - pinyinhint
+    - charset_filter
+    - chaifen_switch
     - tone_display
+    - fuzhu_hint
+    - tone_hint
+    - full_pinyin
     - chinese_english
     - search_single_char
+    - abbrev
   fold_options: true            # 呼出时是否折叠，多方案时建议折叠 true ，一个方案建议展开 false
   abbreviate_options: true      # 折叠时是否缩写选项
   option_list_separator: ' / '  # 折叠时的选项分隔符
 
 
-# 中西文切换
+# 中英文切换
 #
 # good_old_caps_lock:
 # true   切换大写
@@ -60,58 +66,34 @@ ascii_composer:
   switch_key:
     Caps_Lock: clear      # commit_code | commit_text | clear
     Shift_L: commit_code  # commit_code | commit_text | inline_ascii | clear | noop
-    Shift_R: commit_code         # commit_code | commit_text | inline_ascii | clear | noop
+    Shift_R: commit_code  # commit_code | commit_text | inline_ascii | clear | noop
     Control_L: noop       # commit_code | commit_text | inline_ascii | clear | noop
     Control_R: noop       # commit_code | commit_text | inline_ascii | clear | noop
 
 
-###################################################################################
 # 处理符合特定规则的输入码，如网址、反查
 # 此处配置较为通用的选项，各方案中另增加了和方案功能绑定的 patterns。
 recognizer:
   patterns:
-    email: "^[A-Za-z][-_.0-9A-Za-z]*@.*$"                            # email @ 之后不上屏
-    url: "^(www[.]|https?:|ftp[.:]|mailto:|file:).*$|^[a-z]+[.].+$"  # URL
-    underscore: "^[A-Za-z]+_.*"  # 下划线不上屏
-    # url_2: "^[A-Za-z]+[.].*"   # 句号不上屏，支持 google.com abc.txt 等网址或文件名，使用句号翻页时需要注释掉
-    # colon: "^[A-Za-z]+:.*"     # 冒号不上屏
 
 # 快捷键
 key_binder:
   bindings:
+    # 翻页 - =
+    - { when: has_menu, accept: minus, send: Page_Up }
+    - { when: has_menu, accept: equal, send: Page_Down }
     # Tab / Shift+Tab 切换光标至下/上一个拼音
     #- { when: composing, accept: Shift+Tab, send: Shift+Left }
     #- { when: composing, accept: Tab, send: Shift+Right }
     # Tab / Shift+Tab 翻页
     # - { when: has_menu, accept: Shift+Tab, send: Page_Up }
     # - { when: has_menu, accept: Tab, send: Page_Down }
-
-    # Option/Alt + ←/→ 切换光标至下/上一个拼音
-    - { when: composing, accept: Alt+Left, send: Shift+Left }
-    - { when: composing, accept: Alt+Right, send: Shift+Right }
-
-    # 翻页 - =
-    - { when: has_menu, accept: minus, send: Page_Up }
-    - { when: has_menu, accept: equal, send: Page_Down }
-
-    # 翻页 , .
-    # - { when: paging, accept: comma, send: Page_Up }
-    # - { when: has_menu, accept: period, send: Page_Down }
-
-    # 翻页 [ ]
-    # - { when: paging, accept: bracketleft, send: Page_Up }
-    # - { when: has_menu, accept: bracketright, send: Page_Down }
-
-    # 两种按键配置，鼠须管 Control+Shift+4 生效，小狼毫 Control+Shift+dollar 生效，都写上了。
+    
     # numbered_mode_switch:
     # - { when: always, select: .next, accept: Control+Shift+1 }                  # 在最近的两个方案之间切换
     # - { when: always, select: .next, accept: Control+Shift+exclam }             # 在最近的两个方案之间切换
     # - { when: always, toggle: ascii_mode, accept: Control+Shift+2 }             # 切换中英
     # - { when: always, toggle: ascii_mode, accept: Control+Shift+at }            # 切换中英
-    - { when: always, toggle: ascii_punct, accept: Control+Shift+3 }              # 切换中英标点
-    - { when: always, toggle: ascii_punct, accept: Control+Shift+numbersign }     # 切换中英标点
-    - { when: always, toggle: traditionalization, accept: Control+Shift+4 }       # 切换简繁
-    - { when: always, toggle: traditionalization, accept: Control+Shift+dollar }  # 切换简繁
     # - { when: always, toggle: full_shape, accept: Control+Shift+5 }             # 切换全半角
     # - { when: always, toggle: full_shape, accept: Control+Shift+percent }       # 切换全半角
 
@@ -123,7 +105,7 @@ key_binder:
     # - { when: composing, accept: Control+a, send: Home }
     # - { when: composing, accept: Control+e, send: End }
     # - { when: composing, accept: Control+d, send: Delete }
-    #- { when: composing, accept: Control+k, send: Shift+Delete }
+    - { when: composing, accept: Control+k, toggle: xxxxx } #释放Ctrl+k=ctrl+del 万象用来调序，且删除属于低频场景，建议双手操作
     # - { when: composing, accept: Control+h, send: BackSpace }
     # - { when: composing, accept: Control+g, send: Escape }
     # - { when: composing, accept: Control+bracketleft, send: Escape }
@@ -154,7 +136,7 @@ key_binder:
     - {accept: KP_Add,      send: plus,     when: composing}
     - {accept: KP_Subtract, send: minus,    when: composing}
     - {accept: KP_Divide,   send: slash,    when: composing}
-
+    - {accept: KP_Enter, send: Return, when: composing}
 
 # 按键速查
 # https://github.com/LEOYoon-Tsaw/Rime_collections/blob/master/Rime_description.md
