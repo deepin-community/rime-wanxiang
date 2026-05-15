@@ -1,7 +1,7 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: rime-wanxiang
-Upstream-Contact: https://github.com/amzxyz/rime_wanxiang
-Source: https://github.com/amzxyz/rime_wanxiang
+Upstream-Contact: https://github.com/amzxyz/rime-wanxiang
+Source: https://github.com/amzxyz/rime-wanxiang
 
 Files: *
 Copyright: 2025 amzxyz <rcm@qq.com>
