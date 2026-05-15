@@ -21,6 +21,7 @@ override_dh_auto_install:
 	mkdir -p debian/rime-wanxiang-base/usr/share/rime-data/lua/
 	mkdir -p debian/rime-wanxiang-base/usr/share/rime-data/wanxiang/
 	mkdir -p debian/rime-wanxiang-base/usr/share/rime-data/build/
+	mkdir -p debian/rime-wanxiang-base/usr/share/rime-data/custom/
 
 	7z x -mmt=on ./debian/wanxiang-lts-zh-hans.gram.7z.001 -odebian/rime-wanxiang-base/usr/share/rime-data/
 
