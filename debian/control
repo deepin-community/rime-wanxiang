@@ -8,7 +8,7 @@ Build-Depends: debhelper-compat (= 13),
                librime1,
                fcitx5-rime,
 Standards-Version: 4.6.0
-Homepage: https://github.com/amzxyz/rime_wanxiang
+Homepage: https://github.com/amzxyz/rime-wanxiang
 Vcs-Browser: https://github.com/deepin-community/rime-wanxiang
 Vcs-Git: https://github.com/deepin-community/rime-wanxiang.git
 Rules-Requires-Root: no

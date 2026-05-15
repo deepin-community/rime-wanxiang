@@ -1,2 +1,4 @@
 version=4
-https://github.com/amzxyz/rime_wanxiang/tags .*/v?(\d.*)@ARCHIVE_EXT@
+opts="filenamemangle=s/.*?v?(\d.*)\/rime-wanxiang-base\.zip/rime-wanxiang-base-$1.zip/" \
+  https://github.com/amzxyz/rime-wanxiang/releases \
+  .*/releases/download/v?(\d.*)/rime-wanxiang-base\.zip
