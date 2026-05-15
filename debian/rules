@@ -25,6 +25,8 @@ override_dh_auto_install:
 
 	7z x -mmt=on ./debian/wanxiang-lts-zh-hans.gram.7z.001 -odebian/rime-wanxiang-base/usr/share/rime-data/
 
+
+
 	cp debian/wanxiang-deploy debian/rime-wanxiang-base/usr/bin/
 	cp -r dicts/ debian/rime-wanxiang-base/usr/share/rime-data/dicts
 	cp -r lua/* debian/rime-wanxiang-base/usr/share/rime-data/lua/
@@ -37,6 +39,10 @@ override_dh_auto_install:
 	rm -rf build
 
 	rm -rf debian/rime-wanxiang-base/usr/share/rime-data/wanxiang.schema.yaml
+
+execute_after_dh_fixperms:
+	chmod 644 debian/rime-wanxiang-base/usr/share/rime-data/wanxiang_english.dict.yaml
+	chmod 644 debian/rime-wanxiang-base/usr/share/rime-data/wanxiang_english.schema.yaml
 
 clean:
 	rm -f wanxiang.schema.yaml.orig
