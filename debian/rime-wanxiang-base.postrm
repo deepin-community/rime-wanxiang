@@ -1,28 +1,26 @@
-#! /bin/bash
-set -euo pipefail
+#!/bin/sh
+set -e
 
 #DEBHELPER#
+
 RIME_DATA_DIR="/usr/share/rime-data"
-TEMP_DIR="$RIME_DATA_DIR/wanxiang"
 PACKAGE_NAME="rime-wanxiang-base"
 
 case "$1" in
-    remove|purge|upgrade|failed-upgrade)
-        # 创建原子操作目录
-        mkdir -p "$TEMP_DIR" || exit 1
-
-        # 移动配置文件（原子操作）
-        if [ -f "$RIME_DATA_DIR/default.yaml" ]; then
-            mv -f "$RIME_DATA_DIR/default.yaml" "$TEMP_DIR/" || exit 1
+    remove|purge)
+        # 1. 必须先删掉我们自己的 default.yaml 
+        if [ -f "$RIME_DATA_DIR/default.yaml" ] || [ -L "$RIME_DATA_DIR/default.yaml" ]; then
+            rm -f "$RIME_DATA_DIR/default.yaml"
         fi
 
-        # 安全移除 diversion 规则
-        if dpkg-divert --list | grep -q "^$PACKAGE_NAME \$RIME_DATA_DIR/default.yaml$"; then
-            dpkg-divert --remove --rename "$RIME_DATA_DIR/default.yaml" 2>/dev/null || :
-        fi
-
-        # 清理临时文件（延迟到脚本结束）
-        trap 'rm -rf "$TEMP_DIR"' EXIT
+        # 2. 安全移除 diversion 规则，并让系统自动把 .dist 还原回来
+        # dpkg-divert 本身是非常安全的，不需要额外的 trap 或 temp 目录
+        dpkg-divert --package "$PACKAGE_NAME" --remove --rename \
+            --divert "$RIME_DATA_DIR/default.yaml.dist" "$RIME_DATA_DIR/default.yaml"
+        ;;
+        
+    upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+        # 升级相关操作不需要处理转移规则，保持默认放行即可
         ;;
 esac
 
