@@ -2,7 +2,7 @@
 # -*- makefile -*-
 
 SCHEMAS = pinyin zrm zrlong flypy sogo mspy abc ziguang
-SCHEMAS_ZH = 全拼 自然码 自然龙 小鹤双拼 搜狗双拼 微软双拼 智能ABC 紫光双拼,
+SCHEMAS_ZH = 全拼 自然码 自然龙 小鹤双拼 搜狗双拼 微软双拼 智能ABC 紫光双拼
 
 %:
 	dh $@
