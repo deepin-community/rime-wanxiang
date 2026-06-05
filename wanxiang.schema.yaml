@@ -107,24 +107,24 @@ grammar:
   language: wanxiang-lts-zh-hans
   collocation_max_length: 8
   collocation_min_length: 2
-  collocation_penalty: -5
-  non_collocation_penalty: -1
+  collocation_penalty: -15
+  non_collocation_penalty: -6
   weak_collocation_penalty: -100
-  rear_penalty: -10
+  rear_penalty: -20
 
 super_comment:                  # 超级注释模块，子项配置 true 开启，false 关闭
   candidate_length: 2           # 候选词辅助码提醒的生效长度，0为关闭  但同时清空其它，应当使用上面开关来处理
   corrector_type: "〔comment〕"  # 随意更换左右括号，比如"〔comment〕" 不加括号为无括号，comment占位不能动
   cand_type:
-    user_phrase: ""
-    sentence: "∞"
-    phrase: ""
-    table: ""
-    user_table: ""
-    completion: ""
-    predict: ""
-    abbrev: ""
-    fallback: "~"
+    user_phrase: ""             # 自造词和用户词，通过``引导造词的和无感造词的结果都会展示这一标记
+    sentence: ""                # 造句结果，展示这一标记说明词库中没有对应内容
+    phrase: ""                  # 主翻译器里的词（cn词库里的词）
+    table: ""                   # mix词库里的词
+    user_table: ""              # 自定义短语，通过custom_phrase.txt手动设置的词库
+    completion: ""              # 长词联想，即补全标记
+    predict: ""                 # 预测标记
+    abbrev: ""                  # 简码标记
+    fallback: "~"               # 回退标记
 
 super_processor:
   enable_backspace_limit: true # 开启/关闭退格限制
@@ -177,7 +177,7 @@ super_tips:
 
 # 【基础配置】
 # db_name:        数据库存储路径
-# delimiter:      txt词库中一键多词的分割符，默认 "|"
+# delimiter:      txt词库中一键多词的分割符，默认 "Tab"
 # comment_format: 注释内容的显示格式，例如 "〔%s〕"
 # 
 # 【触发条件】
@@ -204,7 +204,6 @@ super_tips:
 
 super_replacer:
   db_name: lua/replacer
-  delimiter: "|"
   comment_format: "〔%s〕"
   chain: true   #true表示流水线作业，上一个option产出交给下一个处理，典型的s2t>t2hk=s2hk，false就是并行，直接用text转换
   rules:
@@ -269,6 +268,13 @@ super_replacer:
       files:
         - lua/data/abbrev.txt
         - lua/data/chengyu.txt
+    - option: true      # 英文简码用于应对abbrev状态下table跑到前面的问题
+      mode: abbrev
+      tags: [abc]
+      prefix: "_enabb_"
+      abbrev_rule: "1,3"
+      files:
+        - lua/data/en_abbrev.txt
 
 # 字符集过滤lua
 # a,通用规范汉字表
@@ -291,7 +297,7 @@ charset:
   - option: charset_filter
     base: a  #可以填入多个类别如aj
     addlist:
-      - "诶濛硷氽尛躝〇冇吔咗囧屌鲶芶咲畑垅𰻝𰻞龍朙頔"
+      - "诶濛硷氽尛躝〇冇吔磺咗囧屌鲶芶咲畑垅𰻝𰻞龍朙頔"
     blacklist: []
   - option: s2t
     base: fa
@@ -541,9 +547,7 @@ input_stats:
 #    - "500000:掌控法则·化神期"
 #    - "1000000:破碎虚空·渡劫期"
 
-# Lua 配置：计算器触发关键字
-calculator:
-  trigger: "V"
+
 
 # 主翻译器，拼音
 translator:
@@ -561,7 +565,6 @@ translator:
   max_word_length: 7           # >0 启用，过长短语不记整词，只加元素权重
   contextual_suggestions: false  #模型用来开启词组权重预测，效果一般关闭
   max_homophones: 8
-  max_homographs: 8
   initial_quality: 3           #初始质量拼音的权重应该比英文大
   spelling_hints: 30           #将注释以词典code字符串形式完全暴露，通过super_comment.lua完全接管，灵活配置。
   always_show_comments: true   # Rime 默认在 preedit 等于 comment 时取消显示 comment，这里强制一直显示，供super_comment_preedit.lua做判断用。
@@ -581,9 +584,8 @@ custom_phrase:
 # 中文、英文、数字、符号等混合词汇
 wanxiang_english:
   dictionary: wanxiang_english
-  user_dict: en
+  enable_user_dict: false
   enable_completion: true
-  enable_sentence: true
   initial_quality: 2.1
   comment_format:  #这里很重要如果残留带声调字母，剩余编码提示计算出错引发程序崩溃
     - xform/^~.+$//
@@ -594,8 +596,8 @@ wanxiang_english:
   #支持设置延时销毁加空格状态，单位秒,0不超时，大于0为超时时间，极大的保证了连续输入的体验。
   english_spacing: smart
   spacing_timeout: 5
-  max_candidates: 3  #英文候选输出最大候选数(适用于需要选单字组词的用户)
-  trigger: "\\"  #英文造词符号\，写一个用时双击
+  max_candidates: 5  #英文候选输出最大候选数(适用于需要选单字组词的用户)
+
 
 wanxiang_mixedcode:
   dictionary: wanxiang_mixedcode
@@ -759,7 +761,6 @@ user_dict_set:
   spelling_hints: 50
   contextual_suggestions: false  #模型预测，假设模型里面有的四个字的词汇 现在智能 而首选组合 现在只能 当你输入 现在 上屏后下一次输入zhi neng就会输出，智能前提是没有权重更高的了，很明显这与你的预期“现在只能”不符。很明显实际上又要预测又要连续句子，放一起是很难优雅的。
   max_homophones: 8
-  max_homographs: 8
   comment_format:
   enable_user_dict: false
   user_dict: zc
